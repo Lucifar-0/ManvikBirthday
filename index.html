@@ -169,7 +169,7 @@
         <div class="confetti"></div>
     </div>
 
-    <audio id="birthdayMusic" src="happy-birthday-lofi-version-222774.mp3"></audio>
+    <audio id="birthdayMusic" src="happy-birthday-lofi-version-222774.mp3" autoplay></audio>
 
     <script>
         // Wishes for Manvik
@@ -226,8 +226,6 @@
             if (countdown === 0) {
                 clearInterval(countdownInterval);
                 countdownElement.textContent = "Start opening the boxes!";
-                // Play music after countdown
-                document.getElementById('birthdayMusic').play();
             }
         }, 1000);
 
