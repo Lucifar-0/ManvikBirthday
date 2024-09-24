@@ -10,9 +10,9 @@
             background-color: #f0f8ff;
             margin: 0;
             padding: 20px;
-            overflow-y: auto; /* Enable vertical scrolling */
-            height: 100vh; /* Set the height of the viewport */
-            box-sizing: border-box; /* Include padding in height */
+            overflow-y: auto;
+            height: 100vh;
+            box-sizing: border-box;
         }
         .container {
             text-align: center;
@@ -68,6 +68,20 @@
         .wish {
             display: none;
         }
+        /* Birthday Cake Animation */
+        .cake {
+            display: none;
+            margin-top: 20px;
+        }
+        .cake img {
+            width: 200px;
+            height: auto;
+            animation: pop 1s ease forwards;
+        }
+        @keyframes pop {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
         /* Confetti Styling */
         .confetti {
             position: absolute;
@@ -83,17 +97,26 @@
             0% { transform: translateY(0); opacity: 1; }
             100% { transform: translateY(500px); opacity: 0; }
         }
-        .music-btn {
-            margin-top: 30px;
+        /* Wishes Section */
+        .wishes-section {
+            margin-top: 20px;
+            display: none;
+        }
+        .wish-input, .name-input {
+            width: 300px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .wish-button {
             padding: 10px 20px;
+            margin-top: 10px;
             background-color: #ff4081;
             color: white;
-            font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .music-btn:hover {
+        .wish-button:hover {
             background-color: #ff80ab;
         }
     </style>
@@ -124,8 +147,19 @@
             <div class="box" onclick="showWish(this, 8)">🎁</div>
         </div>
 
-        <!-- Music Button -->
-        <button class="music-btn" onclick="playMusic()">Play Celebration Music 🎶</button>
+        <!-- Birthday Cake Animation -->
+        <div class="cake">
+            <img src="manvikBirthday.jpg" alt="Birthday Cake">
+        </div>
+
+        <!-- Wishes Section -->
+        <div class="wishes-section" id="wishesSection">
+            <h2>Leave a Birthday Wish!</h2>
+            <input type="text" class="name-input" id="nameInput" placeholder="Your name here...">
+            <input type="text" class="wish-input" id="wishInput" placeholder="Your wish here...">
+            <button class="wish-button" onclick="addWish()">Submit Wish</button>
+            <div id="wishList"></div>
+        </div>
 
         <!-- Confetti falling -->
         <div class="confetti"></div>
@@ -150,6 +184,14 @@
             "Happy Birthday, Manvik! Enjoy every moment!"
         ];
 
+        // Personalized wishes based on the name
+        const personalizedWishes = {
+            "Alice": "Alice, may your birthday be filled with joy and laughter!",
+            "Bob": "Bob, wishing you all the happiness in the world!",
+            "Charlie": "Charlie, may this year bring you closer to your dreams!",
+            // Add more names and wishes as needed
+        };
+
         let openedBoxes = 0;
 
         function showWish(box, index) {
@@ -167,6 +209,10 @@
                     confetti.style.opacity = '1';
                     confetti.style.animationPlayState = 'running';
                 });
+                // Show the birthday cake animation
+                document.querySelector('.cake').style.display = 'block';
+                // Show the wishes section
+                document.getElementById('wishesSection').style.display = 'block';
             }
         }
 
@@ -180,12 +226,36 @@
             if (countdown === 0) {
                 clearInterval(countdownInterval);
                 countdownElement.textContent = "Start opening the boxes!";
+                // Play music after countdown
+                document.getElementById('birthdayMusic').play();
             }
         }, 1000);
 
-        // Play music on button click
-        function playMusic() {
-            document.getElementById('birthdayMusic').play();
+        // Add a wish from the user
+        function addWish() {
+            const wishInput = document.getElementById('wishInput');
+            const nameInput = document.getElementById('nameInput');
+            const wishList = document.getElementById('wishList');
+
+            const nameText = nameInput.value.trim();
+            const wishText = wishInput.value.trim();
+
+            if (nameText && wishText) {
+                const newWish = document.createElement('div');
+                newWish.textContent = `${nameText}: ${wishText}`;
+                newWish.style.margin = '5px 0';
+
+                // Add personalized wish if the name matches
+                if (personalizedWishes[nameText]) {
+                    newWish.textContent += ` - ${personalizedWishes[nameText]}`;
+                }
+
+                wishList.appendChild(newWish);
+                wishInput.value = ''; // Clear input field
+                nameInput.value = ''; // Clear name field
+            } else {
+                alert('Please enter both your name and wish!');
+            }
         }
     </script>
 
