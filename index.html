@@ -119,6 +119,18 @@
         .wish-button:hover {
             background-color: #ff80ab;
         }
+        .music-button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .music-button:hover {
+            background-color: #66bb6a;
+        }
     </style>
 </head>
 <body>
@@ -161,6 +173,9 @@
             <div id="wishList"></div>
         </div>
 
+        <!-- Music Control -->
+        <button class="music-button" id="musicButton" onclick="toggleMusic()">Play Music</button>
+
         <!-- Confetti falling -->
         <div class="confetti"></div>
         <div class="confetti"></div>
@@ -169,7 +184,7 @@
         <div class="confetti"></div>
     </div>
 
-    <audio id="birthdayMusic" src="happy-birthday-lofi-version-222774.mp3" autoplay></audio>
+    <audio id="birthdayMusic" src="happy-birthday-lofi-version-222774.mp3" loop></audio>
 
     <script>
         // Wishes for Manvik
@@ -193,6 +208,7 @@
         };
 
         let openedBoxes = 0;
+        let musicPlaying = false;
 
         function showWish(box, index) {
             if (!box.classList.contains('opened')) {
@@ -226,8 +242,26 @@
             if (countdown === 0) {
                 clearInterval(countdownInterval);
                 countdownElement.textContent = "Start opening the boxes!";
+                // Automatically click the music button
+                document.getElementById('musicButton').click();
             }
         }, 1000);
+
+        // Toggle music play/pause
+        function toggleMusic() {
+            const music = document.getElementById('birthdayMusic');
+            const musicButton = document.getElementById('musicButton');
+
+            if (musicPlaying) {
+                music.pause();
+                musicButton.textContent = "Play Music";
+            } else {
+                music.play();
+                musicButton.textContent = "Pause Music";
+            }
+
+            musicPlaying = !musicPlaying;
+        }
 
         // Add a wish from the user
         function addWish() {
@@ -252,7 +286,7 @@
                 wishInput.value = ''; // Clear input field
                 nameInput.value = ''; // Clear name field
             } else {
-                alert('Please enter both your name and wish!');
+                alert('Please Enter both your name and wish!');
             }
         }
     </script>
