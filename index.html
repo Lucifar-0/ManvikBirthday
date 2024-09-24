@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Manvik!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            height: 100vh; /* Set the height of the viewport */
+            box-sizing: border-box; /* Include padding in height */
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            font-size: 50px;
+            color: #ff69b4;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .timer {
+            font-size: 30px;
+            color: #4caf50;
+            margin-top: 20px;
+        }
+        .image-gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .image-gallery img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        }
+        .boxes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .box {
+            width: 150px;
+            height: 150px;
+            background-color: #ff4081;
+            margin: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .box:hover {
+            transform: scale(1.1);
+        }
+        .wish {
+            display: none;
+        }
+        /* Confetti Styling */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4081;
+            animation: fall 5s linear infinite;
+            opacity: 0;
+        }
+        .confetti:nth-child(2) { background-color: #ffeb3b; }
+        .confetti:nth-child(3) { background-color: #4caf50; }
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(500px); opacity: 0; }
+        }
+        .music-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #ff4081;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .music-btn:hover {
+            background-color: #ff80ab;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Happy Birthday Manvik!</h1>
+        <div class="timer">Birthday countdown: <span id="countdown">5</span></div>
+        
+        <!-- Image Gallery -->
+        <div class="image-gallery">
+            <img src="Screenshot 2024-09-24 105142.png" alt="Manvik Photo 1">
+            <img src="Screenshot 2024-09-24 105212.png" alt="Manvik Photo 2">
+            <img src="Screenshot 2024-09-24 105522.png" alt="Manvik Photo 3">
+            <img src="Screenshot 2024-09-24 105558.png" alt="Manvik Photo 4">
+        </div>
+        
+        <div class="boxes">
+            <!-- Surprise Boxes -->
+            <div class="box" onclick="showWish(this, 1)">🎁</div>
+            <div class="box" onclick="showWish(this, 2)">🎁</div>
+            <div class="box" onclick="showWish(this, 3)">🎁</div>
+            <div class="box" onclick="showWish(this, 4)">🎁</div>
+            <div class="box" onclick="showWish(this, 5)">🎁</div>
+            <div class="box" onclick="showWish(this, 6)">🎁</div>
+            <div class="box" onclick="showWish(this, 7)">🎁</div>
+            <div class="box" onclick="showWish(this, 8)">🎁</div>
+        </div>
+
+        <!-- Music Button -->
+        <button class="music-btn" onclick="playMusic()">Play Celebration Music 🎶</button>
+
+        <!-- Confetti falling -->
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+    </div>
+
+    <audio id="birthdayMusic" src="happy-birthday-lofi-version-222774.mp3"></audio>
+
+    <script>
+        // Wishes for Manvik
+        const wishes = [
+            "Wishing you a day filled with love and happiness!",
+            "Hope your day is as special as you are, Manvik!",
+            "May your year be filled with success and joy!",
+            "Cheers to an amazing birthday and a bright future ahead!",
+            "Sending lots of smiles on your special day!",
+            "May this birthday bring you endless happiness and peace!",
+            "Wishing you a lifetime of joy and prosperity!",
+            "Happy Birthday, Manvik! Enjoy every moment!"
+        ];
+
+        let openedBoxes = 0;
+
+        function showWish(box, index) {
+            if (!box.classList.contains('opened')) {
+                box.innerHTML = `<span class="wish">${wishes[index - 1]}</span>`;
+                box.style.backgroundColor = '#32CD32';  // Change box color
+                box.querySelector('.wish').style.display = 'block';  // Display the wish text
+                box.classList.add('opened');  // Mark the box as opened
+                openedBoxes++;
+            }
+
+            if (openedBoxes === wishes.length) {
+                // Show confetti if all boxes are opened
+                document.querySelectorAll('.confetti').forEach(confetti => {
+                    confetti.style.opacity = '1';
+                    confetti.style.animationPlayState = 'running';
+                });
+            }
+        }
+
+        // Countdown timer before opening boxes
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+
+            if (countdown === 0) {
+                clearInterval(countdownInterval);
+                countdownElement.textContent = "Start opening the boxes!";
+            }
+        }, 1000);
+
+        // Play music on button click
+        function playMusic() {
+            document.getElementById('birthdayMusic').play();
+        }
+    </script>
+
+</body>
+</html>
